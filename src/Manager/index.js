@@ -22,6 +22,12 @@ export default class Manager {
   }
 
   getActive() {
+    // eslint-disable-next-line no-console
+    console.log('getActive', {
+      active: this.active,
+    });
+    if (!this.active || !this.active.collection || !this.refs) return;
+
     return this.refs[this.active.collection].find(
       // eslint-disable-next-line eqeqeq
       ({node}) => node.sortableInfo.index == this.active.index,
@@ -32,7 +38,15 @@ export default class Manager {
     return this.refs[collection].indexOf(ref);
   }
 
-  getOrderedRefs(collection = this.active.collection) {
+  getOrderedRefs(col) {
+    console.log('getOrderedRefs', col);
+    let collection = col;
+    if (!col && this.active && this.active.collection) {
+      collection = this.active.collection;
+    } else {
+      return [];
+    }
+
     return this.refs[collection].sort(sortByIndex);
   }
 }

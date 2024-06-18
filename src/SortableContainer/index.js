@@ -464,11 +464,9 @@ export default function sortableContainer(
 
     handleSortEnd = (event) => {
       const {hideSortableGhost, onSortEnd} = this.props;
-      const {
-        active: {collection},
-        isKeySorting,
-      } = this.manager;
+      const {isKeySorting} = this.manager;
       const nodes = this.manager.getOrderedRefs();
+      const collection = this.manager.active && this.manager.active.collection;
 
       // Remove the event listeners if the node is still in the DOM
       if (this.listenerNode) {
@@ -823,8 +821,11 @@ export default function sortableContainer(
 
       const oldIndex = isKeySorting ? this.prevIndex : prevIndex;
       if (onSortOver && this.newIndex !== oldIndex) {
+        const collection =
+          this.manager && this.manager.active && this.manager.active.collection;
+
         onSortOver({
-          collection: this.manager.active.collection,
+          collection: collection,
           index: this.index,
           newIndex: this.newIndex,
           oldIndex,
